@@ -12,15 +12,24 @@ import javax.validation.constraints.Size;
  * Created by http://rhizomik.net/~roberto/
  */
 @Entity
-public class Greeting {
+public class Film {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @NotBlank(message = "Content cannot be blank")
-    @Size(max = 256, message = "Content maximum length is {max} characters long")
-    private String content;
+    @NotBlank(message = "Title cannot be blank")
+    @Size(max = 128, message = "Title maximum length is {max} characters long")
+    private String title;
+
+
+    @NotBlank(message = "duration cannot be blank")
+    @Size(max = 56, message = "Duration maximum length is {max} characters long")
+    private String year;
+
+    @NotBlank(message = "duration cannot be blank")
+    @Size(max = 56, message = "Duration maximum length is {max} characters long")
+    private String duration;
 
     @NotBlank(message = "E-mail cannot be blank")
     @Email(message = "E-mail should be valid")
@@ -29,23 +38,30 @@ public class Greeting {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date date;
 
-    public Greeting() {}
+    public Film() {}
 
-    public Greeting(String content, String email, Date date) {
-        this.content = content;
-        this.email = email;
+    public Film(String title, String year,String duration,String email, Date date) {
+        this.title = title;
+        this.year = year;
         this.date = date;
+
+        this.duration = duration;
+        this.email =email;
     }
 
     public long getId() { return id; }
 
-    public String getContent() { return content; }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public void setContent(String content) { this.content = content; }
+    public String getYear() { return year; }
+    public void setYear(String year) { this.year = year; }
 
     public String getEmail() { return email; }
-
     public void setEmail(String email) { this.email = email; }
+
+    public String getDuration() { return duration; }
+    public void setDuration(String duration) { this.duration = duration; }
 
     public Date getDate() { return date; }
 

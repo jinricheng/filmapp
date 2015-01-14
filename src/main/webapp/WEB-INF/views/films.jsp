@@ -3,14 +3,14 @@
 <%@taglib prefix="s" uri="http://www.springframework.org/tags"%>
 <html>
 <body>
-<h2>Greetings List</h2>
+<h2>Films List</h2>
     <ul>
-    <c:if test="${not empty greetings}">
-        <c:forEach var="greeting" items="${greetings}">
-        <li><a href="/greetings/${greeting.getId()}">${greeting.getId()}</a>: ${fn:escapeXml(greeting.getContent())}</li>
+    <c:if test="${not empty fims}">
+        <c:forEach var="films" items="${films}">
+        <li><a href="/films/${film.getId()}">${film.getId()}</a>: ${fn:escapeXml(film.getTitle())}</li>
         </c:forEach>
     </c:if>
     </ul>
-    <p><a href="greetings/form">Add</a></p>
+    <p><a href="films/form">Add</a></p>
 </body>
 </html>

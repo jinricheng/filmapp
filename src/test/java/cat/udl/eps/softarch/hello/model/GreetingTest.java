@@ -7,16 +7,16 @@ import static org.junit.Assert.*;
 
 public class GreetingTest {
 
-    private Greeting greeting;
+    private Film greeting;
 
     @Before
     public void setUp() throws Exception {
-        greeting = new Greeting();
+        greeting = new Film();
     }
 
     @Test
     public void testSetContent() throws Exception {
-        greeting.setContent("test");
-        assertEquals("test", greeting.getContent());
+        greeting.setTitle("test");
+        assertEquals("test", greeting.getTitle());
     }
 }

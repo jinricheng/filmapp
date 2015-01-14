@@ -4,14 +4,16 @@
 <html>
 <body>
 
-<p><a href="/greetings">Greetings</a></p>
+<p><a href="/films">films</a></p>
 
-<c:if test="${not empty greeting}">
-    <h2>Greeting number ${greeting.getId()}</h2>
-    <p>Message: ${fn:escapeXml(greeting.getContent())} (<a href="/greetings/${greeting.getId()}/form">edit</a>)</p>
-    <p>By ${greeting.getEmail()} on ${greeting.getDate()}</p>
+<c:if test="${not empty film}">
+    <h2>Film id ${film.getId()}</h2>
+    <p>Title: ${fn:escapeXml(film.getTitle())} (<a href="/films/${film.getId()}/form">edit</a>)</p>
+    <p>Year: ${fn:escapeXml(film.getYear())}</p>
+    <p>Duration: ${fn:escapeXml(film.getDuration())}</p>
+    <p>By ${film.getEmail()} on ${film.getDate()}</p>
 
-    <form:form method="DELETE" action="/greetings/${greeting.getId()}">
+    <form:form method="DELETE" action="/films/${film.getId()}">
         <p><input type="submit" value="Delete"/></p>
     </form:form>
 </c:if>

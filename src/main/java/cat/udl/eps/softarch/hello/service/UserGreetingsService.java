@@ -1,17 +1,17 @@
 package cat.udl.eps.softarch.hello.service;
 
-import cat.udl.eps.softarch.hello.model.Greeting;
+import cat.udl.eps.softarch.hello.model.Film;
 import cat.udl.eps.softarch.hello.model.User;
 
 /**
  * Created by http://rhizomik.net/~roberto/
  */
 public interface UserGreetingsService {
-    User getUserAndGreetings(Long userId);
+    User getUserAndFilms(Long userId);
 
-    Greeting addGreetingToUser(Greeting greeting);
+    Film addFilmToUser(Film greeting);
 
-    Greeting updateGreetingFromUser(Greeting updateGreeting, Long greetingId);
+    Film updateFilmFromUser(Film updateGreeting, Long greetingId);
 
-    void removeGreetingFromUser(Long greetingId);
+    void removeFilmFromUser(Long greetingId);
 }

@@ -45,7 +45,7 @@ public class UserController {
     public User retrieve(@PathVariable("id") Long id) {
         logger.info("Retrieving user number {}", id);
         Preconditions.checkNotNull(userRepository.findOne(id), "User with id %s not found", id);
-        return userGreetingsService.getUserAndGreetings(id);
+        return userGreetingsService.getUserAndFilms(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "text/html")

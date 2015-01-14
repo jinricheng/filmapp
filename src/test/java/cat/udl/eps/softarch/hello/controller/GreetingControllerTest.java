@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import cat.udl.eps.softarch.hello.config.GreetingsAppTestContext;
-import cat.udl.eps.softarch.hello.model.Greeting;
+import cat.udl.eps.softarch.hello.model.Film;
 import cat.udl.eps.softarch.hello.model.User;
 import cat.udl.eps.softarch.hello.repository.GreetingRepository;
 import cat.udl.eps.softarch.hello.repository.UserRepository;
@@ -54,10 +54,10 @@ public class GreetingControllerTest {
         this.greetingDate = df.parse("2015-01-01");
 
         if (greetingRepository.count() == 0) {
-            Greeting g = new Greeting("test1", "test@example.org", greetingDate);
+            Film g = new Film("test1", "1956","1H", "test1@gmail.com",greetingDate);
             greetingRepository.save(g);
             User u = new User("testuser", "test@example.org");
-            u.addGreeting(g);
+            u.addFilm(g);
             userRepository.save(u);
         }
     }
@@ -72,33 +72,36 @@ public class GreetingControllerTest {
     public void testList() throws Exception {
         int startSize = Ints.checkedCast(greetingRepository.count());
 
-        mockMvc.perform(get("/greetings").accept(MediaType.TEXT_HTML))
+        mockMvc.perform(get("/films").accept(MediaType.TEXT_HTML))
                 .andExpect(status().isOk())
-                .andExpect(view().name("greetings"))
-                .andExpect(forwardedUrl("/WEB-INF/views/greetings.jsp"))
-                .andExpect(model().attributeExists("greetings"))
-                .andExpect(model().attribute("greetings", hasSize(startSize)))
-                .andExpect(model().attribute("greetings", hasItem(allOf(
+                .andExpect(view().name("films"))
+                .andExpect(forwardedUrl("/WEB-INF/views/films.jsp"))
+                .andExpect(model().attributeExists("films"))
+                .andExpect(model().attribute("films", hasSize(startSize)))
+                .andExpect(model().attribute("films", hasItem(allOf(
                         hasProperty("id", is(1L)),
-                        hasProperty("content", is("test1")),
-                        hasProperty("email", is("test@example.org"))))));
+                        hasProperty("title", is("test1")),
+                        hasProperty("year", is("1956")),
+                        hasProperty("duration",is("1H"))))));
     }
 
     @Test
     public void testRetrieveExisting() throws Exception {
-        mockMvc.perform(get("/greetings/{id}", 1L).accept(MediaType.TEXT_HTML))
+        mockMvc.perform(get("/films/{id}", 1L).accept(MediaType.TEXT_HTML))
                 .andExpect(status().isOk())
-                .andExpect(view().name("greeting"))
-                .andExpect(forwardedUrl("/WEB-INF/views/greeting.jsp"))
-                .andExpect(model().attributeExists("greeting"))
-                .andExpect(model().attribute("greeting", allOf(
+                .andExpect(view().name("film"))
+                .andExpect(forwardedUrl("/WEB-INF/views/film.jsp"))
+                .andExpect(model().attributeExists("film"))
+                .andExpect(model().attribute("film", allOf(
                         hasProperty("id", is(1L)),
-                        hasProperty("content", is("test1")))));
+                        hasProperty("title", is("test1")),
+                        hasProperty("year", is("1956")),
+                        hasProperty("duration", is("1H")))));
     }
 
     @Test
     public void testRetrieveNonExisting() throws Exception {
-        mockMvc.perform(get("/greetings/{id}", 999L).accept(MediaType.TEXT_HTML))
+        mockMvc.perform(get("/films/{id}", 999L).accept(MediaType.TEXT_HTML))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("error"))
                 .andExpect(forwardedUrl("/WEB-INF/views/error.jsp"));
@@ -108,16 +111,18 @@ public class GreetingControllerTest {
     public void testCreate() throws Exception {
         int startSize = Ints.checkedCast(greetingRepository.count());
 
-        mockMvc.perform(post("/greetings")
-                        .accept(MediaType.TEXT_HTML)
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("content", "newtest")
-                        .param("email", "newtest@example.org")
-                        .param("date", df.format(new Date())))
+        mockMvc.perform(post("/films")
+                .accept(MediaType.TEXT_HTML)
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("title", "newtest")
+                .param("year", "1325")
+                .param("duration", "1h")
+                .param("email", "newtest@example.org")
+                .param("date", df.format(new Date())))
                 .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/greetings/" + (startSize + 1)))
+                .andExpect(view().name("redirect:/films/" + (startSize + 1)))
                 .andExpect(model().hasNoErrors())
-                .andExpect(model().attribute("greeting", hasProperty("content", is("newtest"))));
+                .andExpect(model().attribute("film", hasProperty("title", is("newtest"))));
 
         assertEquals(startSize+1, greetingRepository.count());
     }
@@ -126,61 +131,63 @@ public class GreetingControllerTest {
     public void testCreateEmpty() throws Exception {
         int startSize = Ints.checkedCast(greetingRepository.count());
 
-        mockMvc.perform(post("/greetings")
+        mockMvc.perform(post("/films")
                         .accept(MediaType.TEXT_HTML)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("content", ""))
+                        .param("title", ""))
                 .andExpect(status().isOk())
                 .andExpect(view().name("form"))
                 .andExpect(forwardedUrl("/WEB-INF/views/form.jsp"))
                 .andExpect(model().hasErrors())
-                .andExpect(model().attributeHasFieldErrors("greeting", "content"))
-                .andExpect(model().attribute("greeting", hasProperty("content", isEmptyOrNullString())));
+                .andExpect(model().attributeHasFieldErrors("film", "title"))
+                .andExpect(model().attribute("film", hasProperty("title", isEmptyOrNullString())));
 
         assertEquals(startSize, greetingRepository.count());
     }
 
     @Test
     public void testCreateForm() throws Exception {
-        mockMvc.perform(get("/greetings/form"))
+        mockMvc.perform(get("/films/form"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("form"))
                 .andExpect(forwardedUrl("/WEB-INF/views/form.jsp"))
-                .andExpect(model().attribute("greeting", hasProperty("content", isEmptyOrNullString())));
+                .andExpect(model().attribute("film", hasProperty("title", isEmptyOrNullString())));
     }
 
     @Test
     public void testUpdate() throws Exception {
-        Greeting tobeupdated = greetingRepository.save(new Greeting("tobeupdated", "test@example.org", new Date()));
+        Film tobeupdated = greetingRepository.save(new Film("tobeupdated","1956","1h", "test@example.org", new Date()));
         int startSize = Ints.checkedCast(greetingRepository.count());
 
-        mockMvc.perform(put("/greetings/{id}", tobeupdated.getId())
+        mockMvc.perform(put("/films/{id}", tobeupdated.getId())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("content", "updated")
+                        .param("title", "updated")
+                        .param("year", "1956")
+                        .param("duration", "1h")
                         .param("email", "test@example.org")
                         .param("date", df.format(new Date())))
                 .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/greetings/"+tobeupdated.getId()))
+                .andExpect(view().name("redirect:/films/"+tobeupdated.getId()))
                 .andExpect(model().hasNoErrors());
 
-        assertEquals("updated", greetingRepository.findOne(tobeupdated.getId()).getContent());
+        assertEquals("updated", greetingRepository.findOne(tobeupdated.getId()).getTitle());
         assertEquals(startSize, greetingRepository.count());
     }
 
     @Test
     public void testUpdateEmpty() throws Exception {
-        Greeting tobeupdated = greetingRepository.save(new Greeting("tobeupdated", "test@example.org", new Date()));
+        Film tobeupdated = greetingRepository.save(new Film("tobeupdated", "1956","1h","test@example.org", new Date()));
         int startSize = Ints.checkedCast(greetingRepository.count());
 
-        mockMvc.perform(put("/greetings/{id}", tobeupdated.getId())
+        mockMvc.perform(put("/films/{id}", tobeupdated.getId())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("content", ""))
+                        .param("title", ""))
                 .andExpect(status().isOk())
                 .andExpect(view().name("form"))
                 .andExpect(forwardedUrl("/WEB-INF/views/form.jsp"))
                 .andExpect(model().hasErrors())
-                .andExpect(model().attributeHasFieldErrors("greeting", "content"))
-                .andExpect(model().attribute("greeting", hasProperty("content", isEmptyOrNullString())));
+                .andExpect(model().attributeHasFieldErrors("film", "title"))
+                .andExpect(model().attribute("film", hasProperty("title", isEmptyOrNullString())));
 
         assertEquals(startSize, greetingRepository.count());
     }
@@ -189,11 +196,13 @@ public class GreetingControllerTest {
     public void testUpdateNonExisting() throws Exception {
         int startSize = Ints.checkedCast(greetingRepository.count());
 
-        mockMvc.perform(put("/greetings/{id}", 999L)
+        mockMvc.perform(put("/films/{id}", 999L)
                         .accept(MediaType.TEXT_HTML)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("content", "updated")
-                        .param("email", "newtest@example.org")
+                        .param("title", "updated")
+                        .param("year", "1956")
+                        .param("duration", "1h")
+                        .param("email", "test@example.org")
                         .param("date", df.format(new Date())))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("error"))
@@ -204,16 +213,16 @@ public class GreetingControllerTest {
 
     @Test
     public void testUpdateForm() throws Exception {
-        mockMvc.perform(get("/greetings/{id}/form", 1L))
+        mockMvc.perform(get("/films/{id}/form", 1L))
                 .andExpect(status().isOk())
                 .andExpect(view().name("form"))
                 .andExpect(forwardedUrl("/WEB-INF/views/form.jsp"))
-                .andExpect(model().attribute("greeting", hasProperty("content", is("test1"))));
+                .andExpect(model().attribute("film", hasProperty("title", is("test1"))));
     }
 
     @Test
     public void testUpdateFormNonExisting() throws Exception {
-        mockMvc.perform(get("/greetings/{id}/form", 999L).accept(MediaType.TEXT_HTML))
+        mockMvc.perform(get("/films/{id}/form", 999L).accept(MediaType.TEXT_HTML))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("error"))
                 .andExpect(forwardedUrl("/WEB-INF/views/error.jsp"));
@@ -221,12 +230,12 @@ public class GreetingControllerTest {
 
     @Test
     public void testDeleteExisting() throws Exception {
-        Greeting toBeRemoved = greetingRepository.save(new Greeting("toberemoved", "test@example.org", new Date()));
+        Film toBeRemoved = greetingRepository.save(new Film("toberemoved", "1285","1h","test@example.org", new Date()));
         int startSize = Ints.checkedCast(greetingRepository.count());
 
-        mockMvc.perform(delete("/greetings/{id}", toBeRemoved.getId()).accept(MediaType.TEXT_HTML))
+        mockMvc.perform(delete("/films/{id}", toBeRemoved.getId()).accept(MediaType.TEXT_HTML))
                 .andExpect(status().isFound())
-                .andExpect(view().name("redirect:/greetings"));
+                .andExpect(view().name("redirect:/films"));
 
         assertEquals(startSize-1, greetingRepository.count());
         assertThat(greetingRepository.findAll(), not(hasItem(toBeRemoved)));
@@ -236,7 +245,7 @@ public class GreetingControllerTest {
     public void testDeleteNonExisting() throws Exception {
         int startSize = Ints.checkedCast(greetingRepository.count());
 
-        mockMvc.perform(delete("/greetings/{id}", 999L).accept(MediaType.TEXT_HTML))
+        mockMvc.perform(delete("/films/{id}", 999L).accept(MediaType.TEXT_HTML))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("error"))
                 .andExpect(forwardedUrl("/WEB-INF/views/error.jsp"));
