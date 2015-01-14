@@ -59,9 +59,9 @@ public class GreetingsStepdefs {
         for (Film g : greetings.asList(Film.class)) {
             if (!greetingRepository.exists(index))
                 greetingRepository.save(g);
-            else if (!greetingRepository.findOne(index).getContent().equals(g.getContent())) {
+            else if (!greetingRepository.findOne(index).getTitle().equals(g.getTitle())) {
                 Film toBeUpdated = greetingRepository.findOne(index);
-                toBeUpdated.setContent(g.getContent());
+                toBeUpdated.setTitle(g.getTitle());
                 greetingRepository.save(toBeUpdated);
             }
             index++;

@@ -10,7 +10,7 @@
     <h2>Film id ${film.getId()}</h2>
     <p>Title: ${fn:escapeXml(film.getTitle())} (<a href="/films/${film.getId()}/form">edit</a>)</p>
     <p>Year: ${fn:escapeXml(film.getYear())}</p>
-    <p>Duration: ${fn:escapeXml(film.getDuration())}</p>
+    <p>Runtime: ${fn:escapeXml(film.getDuration())}</p>
     <p>By ${film.getEmail()} on ${film.getDate()}</p>
 
     <form:form method="DELETE" action="/films/${film.getId()}">

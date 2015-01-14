@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 /**
  * Created by http://rhizomik.net/~roberto/
  */
-
+/*
 @RunWith(Cucumber.class)
 public class CucumberTest {}
+*/

@@ -31,6 +31,10 @@
             <td><form:input path="year"/> <i><form:errors path="year"></form:errors></i></td>
         </tr>
         <tr>
+            <td><form:label path="duration">Runtime</form:label></td>
+            <td><form:input path="duration"/> <i><form:errors path="duration"></form:errors></i></td>
+        </tr>
+        <tr>
             <td><form:label path="email">Email</form:label></td>
             <td><form:input path="email"/> <i><form:errors path="email"></form:errors></i></td>
         </tr>

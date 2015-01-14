@@ -51,8 +51,10 @@ public class UserGreetingsServiceImpl implements UserGreetingsService {
         Film oldFilm = greetingRepository.findOne(filmId);
         oldFilm.setTitle(updateFilm.getTitle());
         oldFilm.setDate(updateFilm.getDate());
-        if (!updateFilm.getYear().equals(oldFilm.getYear())) {
-            throw new GreetingEmailUpdateException("Film year cannot be updated");
+        oldFilm.setYear(updateFilm.getYear());
+        oldFilm.setDuration(updateFilm.getDuration());
+        if (!updateFilm.getEmail().equals(oldFilm.getEmail())) {
+            throw new GreetingEmailUpdateException("Email different, cannot be updated");
         }
         return greetingRepository.save(oldFilm);
     }
