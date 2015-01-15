@@ -8,11 +8,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
+import java.io.Serializable;
+
 /**
  * Created by http://rhizomik.net/~roberto/
  */
 @Entity
-public class Film {
+public class Film implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
