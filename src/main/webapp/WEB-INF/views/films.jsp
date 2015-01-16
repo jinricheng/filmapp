@@ -14,5 +14,6 @@
     </c:if>
     </ul>
     <p><a href="films/form">Add New Film</a></p>
+    <p><a href="films/searchForm">Search film by title containing</a></p>
 </body>
 </html>
