@@ -1,12 +1,12 @@
 package cat.udl.eps.softarch.hello.service;
 
 import cat.udl.eps.softarch.hello.model.Film;
+import cat.udl.eps.softarch.hello.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import cat.udl.eps.softarch.hello.model.User;
 import cat.udl.eps.softarch.hello.repository.GreetingRepository;
 import cat.udl.eps.softarch.hello.repository.UserRepository;
 

@@ -34,7 +34,7 @@
         </init-param>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>cat.udl.eps.softarch.hello.config.GreetingsAppContext</param-value>
+            <param-value>cat.udl.eps.softarch.hello.config.GreetingsPostgresAppContext</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

@@ -12,9 +12,10 @@ import java.io.Serializable;
  * Created by roberto on 29/12/14.
  */
 @Entity
+
 public class User implements Serializable{
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @NotBlank(message = "Username cannot be blank")

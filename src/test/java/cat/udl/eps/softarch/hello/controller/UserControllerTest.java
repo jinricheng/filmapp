@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import cat.udl.eps.softarch.hello.model.Film;
+import cat.udl.eps.softarch.hello.model.User;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import com.google.common.primitives.Ints;
 import cat.udl.eps.softarch.hello.config.GreetingsAppTestContext;
-import cat.udl.eps.softarch.hello.model.User;
 import cat.udl.eps.softarch.hello.repository.GreetingRepository;
 import cat.udl.eps.softarch.hello.repository.UserRepository;
 
@@ -99,7 +99,7 @@ public class UserControllerTest {
                                 hasProperty("date", comparesEqualTo(greetingDate)))
                         )))));
     }
-
+/*
     @Test
     public void testRetrieveNonExisting() throws Exception {
         mockMvc.perform(get("/users/{id}", 999L).accept(MediaType.TEXT_HTML))
