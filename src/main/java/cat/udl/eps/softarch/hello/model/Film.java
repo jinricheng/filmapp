@@ -48,6 +48,7 @@ public class Film implements Serializable{
         this.date = date;
 
         this.duration = duration;
+
         this.email =email;
     }
 

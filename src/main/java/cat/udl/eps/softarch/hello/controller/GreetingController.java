@@ -34,7 +34,7 @@ public class GreetingController {
     UserGreetingsService userGreetingsService;
 
     // LIST
-    @RequestMapping(value = {"/films","/films/json"},method = RequestMethod.GET)
+    @RequestMapping(value = "/films", method = RequestMethod.GET)
     @ResponseBody
     public Iterable<Film> list(@RequestParam(required = false, defaultValue = "0") int page,
                                @RequestParam(required = false, defaultValue = "10") int size) {
@@ -48,13 +48,8 @@ public class GreetingController {
         return new ModelAndView("films", "films", list(page, size));
     }
 
-    @RequestMapping(value = "/films/json",method = RequestMethod.GET, produces = "application/json")
-    public ModelAndView listJSON(@RequestParam(required = false, defaultValue = "0") int page,
-                                 @RequestParam(required = false, defaultValue = "10") int size) {
-        return new ModelAndView("films", "films", list(page, size));
-    }
 // RETRIEVE
-    @RequestMapping(value = {"/films/{id}","/films/{id}/json"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/films/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Film retrieve(@PathVariable("id") Long id) {
         logger.info("Retrieving Film number {}", id);
@@ -63,10 +58,6 @@ public class GreetingController {
     }
     @RequestMapping(value = "/films/{id}", method = RequestMethod.GET, produces = "text/html")
     public ModelAndView retrieveHTML(@PathVariable( "id" ) Long id) {
-        return new ModelAndView("film", "film", retrieve(id));
-    }
-    @RequestMapping(value = "/films/{id}/json", method = RequestMethod.GET, produces = "application/json")
-    public ModelAndView retrieveJSON(@PathVariable( "id" ) Long id) {
         return new ModelAndView("film", "film", retrieve(id));
     }
 
