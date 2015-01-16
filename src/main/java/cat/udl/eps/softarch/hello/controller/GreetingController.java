@@ -24,41 +24,53 @@ import javax.validation.Valid;
  */
 
 @Controller
-@RequestMapping(value = "/films")
+@RequestMapping(value = "/")
 public class GreetingController {
     final Logger logger = LoggerFactory.getLogger(GreetingController.class);
 
-    @Autowired GreetingRepository   greetingRepository;
-    @Autowired UserGreetingsService userGreetingsService;
+    @Autowired
+    GreetingRepository greetingRepository;
+    @Autowired
+    UserGreetingsService userGreetingsService;
 
-// LIST
-    @RequestMapping(method = RequestMethod.GET)
+    // LIST
+    @RequestMapping(value = {"/films","/films/json"},method = RequestMethod.GET)
     @ResponseBody
-    public Iterable<Film> list(@RequestParam(required=false, defaultValue="0") int page,
-                                   @RequestParam(required=false, defaultValue="10") int size) {
+    public Iterable<Film> list(@RequestParam(required = false, defaultValue = "0") int page,
+                               @RequestParam(required = false, defaultValue = "10") int size) {
         PageRequest request = new PageRequest(page, size);
         return greetingRepository.findAll(request).getContent();
     }
-    @RequestMapping(method = RequestMethod.GET, produces = "text/html")
-    public ModelAndView listHTML(@RequestParam(required=false, defaultValue="0") int page,
-                                 @RequestParam(required=false, defaultValue="10") int size) {
+
+    @RequestMapping(value = "/films",method = RequestMethod.GET, produces = "text/html")
+    public ModelAndView listHTML(@RequestParam(required = false, defaultValue = "0") int page,
+                                 @RequestParam(required = false, defaultValue = "10") int size) {
         return new ModelAndView("films", "films", list(page, size));
     }
 
+    @RequestMapping(value = "/films/json",method = RequestMethod.GET, produces = "application/json")
+    public ModelAndView listJSON(@RequestParam(required = false, defaultValue = "0") int page,
+                                 @RequestParam(required = false, defaultValue = "10") int size) {
+        return new ModelAndView("films", "films", list(page, size));
+    }
 // RETRIEVE
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = {"/films/{id}","/films/{id}/json"}, method = RequestMethod.GET)
     @ResponseBody
     public Film retrieve(@PathVariable("id") Long id) {
         logger.info("Retrieving Film number {}", id);
         Preconditions.checkNotNull(greetingRepository.findOne(id), "Film with id %s not found", id);
         return greetingRepository.findOne(id);
     }
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "text/html")
+    @RequestMapping(value = "/films/{id}", method = RequestMethod.GET, produces = "text/html")
     public ModelAndView retrieveHTML(@PathVariable( "id" ) Long id) {
         return new ModelAndView("film", "film", retrieve(id));
     }
+    @RequestMapping(value = "/films/{id}/json", method = RequestMethod.GET, produces = "application/json")
+    public ModelAndView retrieveJSON(@PathVariable( "id" ) Long id) {
+        return new ModelAndView("film", "film", retrieve(id));
+    }
 
- // CREATE
+    // CREATE
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
