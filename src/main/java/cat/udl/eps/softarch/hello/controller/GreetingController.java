@@ -71,7 +71,7 @@ public class GreetingController {
     }
 
     // CREATE
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/films",method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
     @ResponseBody
     public Film create(@Valid @RequestBody Film greeting, HttpServletResponse response) {
@@ -82,7 +82,7 @@ public class GreetingController {
         response.setHeader("Location", "/films/" + newGreeting.getId());
         return newGreeting;
     }
-    @RequestMapping(method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded", produces="text/html")
+    @RequestMapping(value = "/films",method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded", produces="text/html")
     public String createHTML(@Valid @ModelAttribute("film") Film greeting, BindingResult binding, HttpServletResponse response) {
         if (binding.hasErrors()) {
             logger.info("Validation error: {}", binding);
@@ -91,7 +91,7 @@ public class GreetingController {
         return "redirect:/films/"+create(greeting, response).getId();
     }
     // Create form
-    @RequestMapping(value = "/form", method = RequestMethod.GET, produces = "text/html")
+    @RequestMapping(value = "/films/form", method = RequestMethod.GET, produces = "text/html")
     public ModelAndView createForm() {
         logger.info("Generating form for film creation");
         Film emptyFilm = new Film();
@@ -100,7 +100,7 @@ public class GreetingController {
     }
 
 // UPDATE
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/films/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public Film update(@PathVariable("id") Long id, @Valid @RequestBody Film film) {
@@ -108,7 +108,7 @@ public class GreetingController {
         Preconditions.checkNotNull(greetingRepository.findOne(id), "Film with id %s not found", id);
         return userGreetingsService.updateFilmFromUser(film, id);
     }
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT, consumes = "application/x-www-form-urlencoded")
+    @RequestMapping(value = "/films/{id}", method = RequestMethod.PUT, consumes = "application/x-www-form-urlencoded")
     @ResponseStatus(HttpStatus.OK)
     public String updateHTML(@PathVariable("id") Long id, @Valid @ModelAttribute("film") Film film,
                          BindingResult binding) {
@@ -119,7 +119,7 @@ public class GreetingController {
         return "redirect:/films/"+update(id, film).getId();
     }
     // Update form
-    @RequestMapping(value = "/{id}/form", method = RequestMethod.GET, produces = "text/html")
+    @RequestMapping(value = "/films/{id}/form", method = RequestMethod.GET, produces = "text/html")
     public ModelAndView updateForm(@PathVariable("id") Long id) {
         logger.info("Film form for updating film number {}", id);
         Preconditions.checkNotNull(greetingRepository.findOne(id), "film with id %s not found", id);
@@ -127,7 +127,7 @@ public class GreetingController {
     }
 
 // DELETE
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/films/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") Long id) {
         logger.info("Deleting film number {}", id);
@@ -135,7 +135,7 @@ public class GreetingController {
        // greetingRepository.delete(id);
         userGreetingsService.removeFilmFromUser(id);
     }
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
+    @RequestMapping(value = "/films/{id}", method = RequestMethod.DELETE, produces = "text/html")
     @ResponseStatus(HttpStatus.OK)
     public String deleteHTML(@PathVariable("id") Long id) {
         delete(id);
