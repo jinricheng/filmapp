@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import cat.udl.eps.softarch.hello.model.Film;
-import cat.udl.eps.softarch.hello.model.User;
+import cat.udl.eps.softarch.hello.model.Userfilm;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ContextConfiguration(classes = GreetingsAppTestContext.class)
 @WebAppConfiguration
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
-public class UserControllerTest {
+public class UserfilmControllerTest {
     static DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired GreetingRepository greetingRepository;
@@ -56,7 +56,7 @@ public class UserControllerTest {
 
         Film g = new Film("test-content","1956","1h", "test@example.org", greetingDate);
         greetingRepository.save(g);
-        User u = new User("test-user", "test@example.org");
+        Userfilm u = new Userfilm("test-user", "test@example.org");
         u.addFilm(g);
         userRepository.save(u);
     }
@@ -73,9 +73,9 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("users"))
                 .andExpect(forwardedUrl("/WEB-INF/views/users.jsp"))
-                .andExpect(model().attributeExists("users"))
-                .andExpect(model().attribute("users", hasSize(startSize)))
-                .andExpect(model().attribute("users", hasItem(allOf(
+                .andExpect(model().attributeExists("usersfilm"))
+                .andExpect(model().attribute("usersfilm", hasSize(startSize)))
+                .andExpect(model().attribute("usersfilm", hasItem(allOf(
                         hasProperty("id", is(1L)),
                         hasProperty("username", is("test-user")),
                         hasProperty("email", is("test@example.org"))))));
@@ -87,8 +87,8 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("user"))
                 .andExpect(forwardedUrl("/WEB-INF/views/user.jsp"))
-                .andExpect(model().attributeExists("user"))
-                .andExpect(model().attribute("user", allOf(
+                .andExpect(model().attributeExists("userfilm"))
+                .andExpect(model().attribute("userfilm", allOf(
                         hasProperty("id", is(1L)),
                         hasProperty("username", is("test-user")),
                         hasProperty("email", is("test@example.org")),

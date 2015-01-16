@@ -4,16 +4,16 @@
 <html>
 <body>
 
-<p><a href="/users">Users</a></p>
+<p><a href="/users">Users List</a></p>
+<p><a href="/films">Films List</a></p>
+<c:if test="${not empty userfilm}">
+    <h2>User ${userfilm.getUsername()}</h2>
+    <p>E-mail: ${userfilm.getEmail()}</p>
 
-<c:if test="${not empty user}">
-    <h2>User ${user.getUsername()}</h2>
-    <p>E-mail: ${user.getEmail()}</p>
-
-    <c:if test="${not empty user.getFilms()}">
+    <c:if test="${not empty userfilm.getFilms()}">
         <h3>User Films</h3>
-        <c:forEach var="film" items="${user.getFilms()}">
-            <li><a href="/films/${film.getId()}">${film.getId()}</a>: ${fn:escapeXml(film.Title())}</li>
+        <c:forEach var="film" items="${userfilm.getFilms()}">
+            <li>${film.getId()}:<a href="/films/${film.getId()}">${fn:escapeXml(film.getTitle())}</a>
         </c:forEach>
     </c:if>
 </c:if>

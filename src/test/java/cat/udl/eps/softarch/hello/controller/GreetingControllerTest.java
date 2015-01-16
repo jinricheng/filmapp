@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import cat.udl.eps.softarch.hello.config.GreetingsAppTestContext;
 import cat.udl.eps.softarch.hello.model.Film;
-import cat.udl.eps.softarch.hello.model.User;
+import cat.udl.eps.softarch.hello.model.Userfilm;
 import cat.udl.eps.softarch.hello.repository.GreetingRepository;
 import cat.udl.eps.softarch.hello.repository.UserRepository;
 import com.google.common.primitives.Ints;
@@ -55,7 +55,7 @@ public class GreetingControllerTest {
         if (greetingRepository.count() == 0) {
             Film g = new Film("test1", "1956","1H", "test1@gmail.com",greetingDate);
             greetingRepository.save(g);
-            User u = new User("testuser", "test@example.org");
+            Userfilm u = new Userfilm("testuser", "test@example.org");
             u.addFilm(g);
             userRepository.save(u);
         }

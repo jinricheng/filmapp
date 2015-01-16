@@ -1,6 +1,6 @@
 package cat.udl.eps.softarch.hello.controller;
 
-import cat.udl.eps.softarch.hello.model.User;
+import cat.udl.eps.softarch.hello.model.Userfilm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class UserController {
     // LIST
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public Iterable<User> list(@RequestParam(required = false, defaultValue = "0") int page,
+    public Iterable<Userfilm> list(@RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "10") int size) {
         PageRequest request = new PageRequest(page, size);
         return userRepository.findAll(request).getContent();
@@ -36,20 +36,20 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, produces = "text/html")
     public ModelAndView listHTML(@RequestParam(required = false, defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "10") int size) {
-        return new ModelAndView("users", "users", list(page, size));
+        return new ModelAndView("users", "usersfilm", list(page, size));
     }
 
     // RETRIEVE
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public User retrieve(@PathVariable("id") Long id) {
+    public Userfilm retrieve(@PathVariable("id") Long id) {
         logger.info("Retrieving user number {}", id);
-        Preconditions.checkNotNull(userRepository.findOne(id), "User with id %s not found", id);
+        Preconditions.checkNotNull(userRepository.findOne(id), "Userfilm with id %s not found", id);
         return userGreetingsService.getUserAndFilms(id);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = "text/html")
     public ModelAndView retrieveHTML(@PathVariable( "id" ) Long id) {
-        return new ModelAndView("user", "user", retrieve(id));
+        return new ModelAndView("user", "userfilm", retrieve(id));
     }
 }

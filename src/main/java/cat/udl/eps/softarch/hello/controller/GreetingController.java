@@ -64,11 +64,11 @@ public class GreetingController {
     @ResponseBody
     public Film create(@Valid @RequestBody Film greeting, HttpServletResponse response) {
         logger.info("Creating greeting with content'{}'", greeting.getTitle());
-        greetingRepository.save(greeting);
+       // greetingRepository.save(greeting);
 
-       // Film newGreeting = userGreetingsService.addFilmToUser(greeting);
-        response.setHeader("Location", "/films/" + greeting.getId());
-        return greeting;
+        Film newGreeting = userGreetingsService.addFilmToUser(greeting);
+        response.setHeader("Location", "/films/" + newGreeting.getId());
+        return newGreeting;
     }
     @RequestMapping(method = RequestMethod.POST, consumes = "application/x-www-form-urlencoded", produces="text/html")
     public String createHTML(@Valid @ModelAttribute("film") Film greeting, BindingResult binding, HttpServletResponse response) {
@@ -120,8 +120,8 @@ public class GreetingController {
     public void delete(@PathVariable("id") Long id) {
         logger.info("Deleting film number {}", id);
         Preconditions.checkNotNull(greetingRepository.findOne(id), "Film with id %s not found", id);
-        greetingRepository.delete(id);
-        //userGreetingsService.removeFilmFromUser(id);
+       // greetingRepository.delete(id);
+        userGreetingsService.removeFilmFromUser(id);
     }
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE, produces = "text/html")
     @ResponseStatus(HttpStatus.OK)

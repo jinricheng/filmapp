@@ -1,7 +1,7 @@
 package cat.udl.eps.softarch.hello.service;
 
 import cat.udl.eps.softarch.hello.model.Film;
-import cat.udl.eps.softarch.hello.model.User;
+import cat.udl.eps.softarch.hello.model.Userfilm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,20 +24,20 @@ public class UserGreetingsServiceImpl implements UserGreetingsService {
 
     @Transactional(readOnly = true)
     @Override
-    public User getUserAndFilms(Long userId) {
-        User u = userRepository.findOne(userId);
-        logger.info("User {} has {} greetings", u.getUsername(), u.getFilms().size());
+    public Userfilm getUserAndFilms(Long userId) {
+        Userfilm u = userRepository.findOne(userId);
+        logger.info("Userfilm {} has {} greetings", u.getUsername(), u.getFilms().size());
         return u;
     }
 
     @Transactional
     @Override
     public Film addFilmToUser(Film g) {
-        User u = userRepository.findUserByEmail(g.getEmail());
+        Userfilm u = userRepository.findUserByEmail(g.getEmail());
         if (u == null) {
             String email = g.getEmail();
             String username = email.substring(0, email.indexOf('@'));
-            u = new User(username, email);
+            u = new Userfilm(username, email);
         }
         greetingRepository.save(g);
         u.addFilm(g);
@@ -63,7 +63,7 @@ public class UserGreetingsServiceImpl implements UserGreetingsService {
     @Override
     public void removeFilmFromUser(Long filmId) {
         Film g = greetingRepository.findOne(filmId);
-        User u = userRepository.findUserByEmail(g.getEmail());
+        Userfilm u = userRepository.findUserByEmail(g.getEmail());
         if (u != null) {
             u.removeFilm(g);
             userRepository.save(u);

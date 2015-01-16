@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 @Entity
 
-public class User implements Serializable{
+public class Userfilm implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -28,9 +28,9 @@ public class User implements Serializable{
     @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
     private List<Film> films ;
 
-    public User() { }
+    public Userfilm() { }
 
-    public User(String username, String email) {
+    public Userfilm(String username, String email) {
         this.username = username;
         this.email = email;
         films = new ArrayList<>();

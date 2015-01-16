@@ -4,6 +4,7 @@
 <html>
 <body>
 <h1>Welcome to the FilmsApp!</h1>
+<p><a href="/users">Users List</a></p>
 <h2>Films Lists</h2>
     <ul>
     <c:if test="${not empty films}">
