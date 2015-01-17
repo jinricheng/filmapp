@@ -10,6 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 import cat.udl.eps.softarch.hello.repository.GreetingRepository;
 import cat.udl.eps.softarch.hello.repository.UserRepository;
 
+import java.util.List;
+
 /**
  * Created by http://rhizomik.net/~roberto/
  */
@@ -56,6 +58,7 @@ public class UserGreetingsServiceImpl implements UserGreetingsService {
         if (!updateFilm.getEmail().equals(oldFilm.getEmail())) {
             throw new GreetingEmailUpdateException("Email different, cannot be updated");
         }
+
         return greetingRepository.save(oldFilm);
     }
 

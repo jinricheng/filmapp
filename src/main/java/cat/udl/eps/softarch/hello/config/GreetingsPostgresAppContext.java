@@ -56,7 +56,7 @@ public class GreetingsPostgresAppContext extends WebMvcConfigurerAdapter{
     @Bean
     public DataSource dataSource() throws URISyntaxException {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-     //   URI dbUri = new URI("postgres://postgres:12345@localhost/postgres");
+        //URI dbUri = new URI("postgres://postgres:12345@localhost/postgres");
         URI dbUri = new URI(System.getenv("DATABASE_URL"));
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];

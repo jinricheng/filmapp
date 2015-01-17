@@ -1,6 +1,7 @@
 package cat.udl.eps.softarch.hello.controller;
 
 import java.util.Date;
+import java.util.Iterator;
 
 import cat.udl.eps.softarch.hello.model.Film;
 import cat.udl.eps.softarch.hello.repository.GreetingRepository;
@@ -67,8 +68,6 @@ public class GreetingController {
     @ResponseBody
     public Film create(@Valid @RequestBody Film greeting, HttpServletResponse response) {
         logger.info("Creating greeting with content'{}'", greeting.getTitle());
-       // greetingRepository.save(greeting);
-
         Film newGreeting = userGreetingsService.addFilmToUser(greeting);
         response.setHeader("Location", "/films/" + newGreeting.getId());
         return newGreeting;
@@ -89,6 +88,28 @@ public class GreetingController {
         emptyFilm.setDate(new Date());
         return new ModelAndView("form", "film", emptyFilm);
     }
+
+//SEARCH
+@RequestMapping(value = "/films/searchResult",method = RequestMethod.POST)
+@ResponseBody
+public Iterable<Film> search(String title) {
+    //logger.info("film search with content'{}'", film.getTitle());
+    return greetingRepository.findByTitleContaining(title);
+
+}
+ @RequestMapping(value = "/films/searchResult",method = RequestMethod.POST, produces = "text/html")
+    public ModelAndView listSearchResult(@RequestParam("result")String title) {
+        return new ModelAndView("results", "films", search(title));
+    }
+    // Search form
+    @RequestMapping(value = "/films/searchForm", method = RequestMethod.GET, produces = "text/html")
+    public ModelAndView searchForm() {
+        logger.info("Generating form for film searching");
+        String title = new String();
+        return new ModelAndView("searchForm", "result", title);
+    }
+
+
 
 // UPDATE
     @RequestMapping(value = "/films/{id}", method = RequestMethod.PUT)
