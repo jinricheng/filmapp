@@ -15,6 +15,6 @@
     </ul>
     <p><a href="/users">Users List</a></p>
     <p><a href="films/form">Add New Film</a></p>
-    <p><a href="films/searchForm">Seach films</a></p>
+    <p><a href="/search">Search films</a></p>
 </body>
 </html>

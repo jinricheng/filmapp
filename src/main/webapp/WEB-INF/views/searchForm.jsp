@@ -18,11 +18,11 @@
 
 
 <h3>Search Film</h3>
-    <c:set var="method" value="POST"/>
-    <c:set var="action" value="/films/searchResult"/>
+    <c:set var="method" value="GET"/>
+    <c:set var="action" value="/result"/>
 
 
-<form:form method="${method}" action="${action}">
+<form:form method="${method}" action="${action}" modelAttribute="film">
     <table>
         <tr>
             <td><form >SearchByTitle </form></td>
