@@ -123,6 +123,12 @@
             <version>2.4.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20141113</version>
+        </dependency>
+
         <!-- Testing -->
         <dependency>
             <groupId>junit</groupId>
