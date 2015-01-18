@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -49,7 +50,7 @@ public class GreetingController {
         return new ModelAndView("films", "films", list(page, size));
     }
 
-    // RETRIEVE
+// RETRIEVE
     @RequestMapping(value = "/films/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Film retrieve(@PathVariable("id") Long id) {
@@ -89,45 +90,35 @@ public class GreetingController {
         return new ModelAndView("form", "film", emptyFilm);
     }
 
-    //SEARCH
-    @RequestMapping(value = "/result",method = RequestMethod.GET)
-    @ResponseStatus(HttpStatus.CREATED)
-    @ResponseBody
-    public Iterable<Film> search(String title) {
-        //logger.info("film search with content'{}'", film.getTitle());
-        return greetingRepository.findByTitleContaining(title);
-    }
-    @RequestMapping(value = "/result",method = RequestMethod.GET, produces = "text/html")
-    public ModelAndView listSearchResultHTML(@RequestParam("result") String title) {
+//SEARCH
+@RequestMapping(value = "/result/{result}",method = RequestMethod.GET)
+@ResponseBody
+public Iterable<Film> search(@PathVariable("result" ) String title) {
+    //logger.info("film search with content'{}'", film.getTitle());
+    return greetingRepository.findByTitleContaining(title);
+
+}
+ @RequestMapping(value = "/result/{result}",method = RequestMethod.GET, produces = "text/html")
+    public ModelAndView listSearchResult(@PathVariable("result" )String title) {
+
         return new ModelAndView("result", "films", search(title));
+    }
+
+    @RequestMapping(value = "/result",method = RequestMethod.GET,produces="text/html")
+    public String searchHTML(@RequestParam("result")String title) {
+        return "redirect:/result/"+title;
     }
     // Search form
     @RequestMapping(value = "/search", method = RequestMethod.GET, produces = "text/html")
     public ModelAndView searchForm() {
         logger.info("Generating form for film searching");
-        //String title = new String();
-        Film title = new Film();
-        title.setDate(new Date());
-        return new ModelAndView("searchForm", "result", title);
-    }
-/*
-    // SEARCH V2
-    @RequestMapping(value = "/films", method = RequestMethod.GET)
-    @ResponseBody
-    public Iterable<Film> list(@RequestParam(required = false, defaultValue = "0") int page,
-                               @RequestParam(required = false, defaultValue = "10") int size) {
-        PageRequest request = new PageRequest(page, size);
-        System.out.println("LIST!!!!!!!"+greetingRepository.findAll(request).getContent());
-        return greetingRepository.findAll(request).getContent();
+        String title = new String();
+        return new ModelAndView("searchForm", "films", title);
     }
 
-    @RequestMapping(value = "/films",method = RequestMethod.GET, produces = "text/html")
-    public ModelAndView listHTML(@RequestParam(required = false, defaultValue = "0") int page,
-                                 @RequestParam(required = false, defaultValue = "10") int size) {
-        return new ModelAndView("films", "films", list(page, size));
-    }
-*/
-    // UPDATE
+
+
+// UPDATE
     @RequestMapping(value = "/films/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

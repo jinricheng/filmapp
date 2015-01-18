@@ -22,7 +22,8 @@
     <c:set var="action" value="/result"/>
 
 
-<form:form method="${method}" action="${action}" modelAttribute="film">
+
+<form:form method="${method}" action="${action}">
     <table>
         <tr>
             <td><form >SearchByTitle </form></td>
