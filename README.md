@@ -1,9 +1,8 @@
-GreetingsApp
-============
+# :sparkles: :heart: Films App :heart: :sparkles:
 
 [![Build Status](https://travis-ci.org/jinricheng/filmapp.svg?branch=master)](https://travis-ci.org/jinricheng/filmapp)
 
-This is a simple Spring demo of a Greetings application providing a RESTFul JSON API also available from an HTML user interface. It features:
+This is a simple Spring demo of a Films application providing a RESTFul JSON API also available from an HTML user interface. It features:
 
 * Spring MVC with Content Negotiation
 * Spring Data JPA/Hibernate persistence over HSQL and Heroku PostgreSQL
@@ -23,4 +22,4 @@ Then run embedded Tomcat server:
 mvn exec:exec
 ```
 
-The application will be available at http://localhost:8080/greetings
+The application will be available at http://localhost:8080/greetings (locally) & https://filmsapp.herokuapp.com/ (Internet)
