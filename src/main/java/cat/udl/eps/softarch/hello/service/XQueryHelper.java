@@ -1,4 +1,4 @@
-//package cat.udl.eps.softarch;
+package cat.udl.eps.softarch.hello.service;//package cat.udl.eps.softarch;
 
 import java.io.IOException;
 import java.net.URL;
