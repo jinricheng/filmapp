@@ -61,12 +61,9 @@ public class XQueryHelper {
 
         this.jaxbContext = JAXBContext.newInstance(Film.class);
         this.jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-        System.out.println(xquery);
+
         List<Film> result = this.getFilms();
 
-        for (Film film :result){
-            System.out.println(film.getTitle()+film.getYear()+film.getPoster()+film.getSynopsis()+film.getMpaa_rating()+film.getRuntime());
-       }
     return result;
     }
 
@@ -79,9 +76,9 @@ public class XQueryHelper {
             while (rs.next()) {
                // System.out.println(rs.getItemAsString(null));
                 XQItem item = rs.getItem();
-                System.out.println(item.getItemAsString(null));
+
                 Film film = (Film) jaxbUnmarshaller.unmarshal(item.getNode());
-                System.out.println(film.getRuntime()+" "+film.getMpaa_rating());
+
                 films.add(film);
             }
         } catch (Exception e) {
