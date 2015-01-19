@@ -40,6 +40,10 @@ public class GreetingController {
     @Autowired
     UserGreetingsService userGreetingsService;
 
+    @RequestMapping(value = "/",method = RequestMethod.GET, produces = "text/html")
+    public ModelAndView homeHTML() {
+        return new ModelAndView("home");
+    }
     // LIST
     @RequestMapping(value = "/films", method = RequestMethod.GET)
     @ResponseBody
@@ -104,8 +108,14 @@ public List<Film> search(@PathVariable("result" ) String title)throws ClassNotFo
     if(r.size()==0){
            XQueryHelper x = new XQueryHelper();
             r = x.getListFilm(title);
-            greetingRepository.save(r);
+        for(Film film:r){
+            film.setDate(new Date());
+            Film newFilm = userGreetingsService.addFilmToUser(film);
+            //greetingRepository.save();
+        }
+
     }
+
 
        return r;
 }

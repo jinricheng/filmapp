@@ -1,5 +1,5 @@
 language: java
 notifications:
-  email: rogargon@gmail.com
+  email: xurata@hotmail.es
   on_success: change
   on_failure: always
