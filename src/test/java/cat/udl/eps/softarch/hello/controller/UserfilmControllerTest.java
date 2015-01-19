@@ -54,7 +54,7 @@ public class UserfilmControllerTest {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
         this.greetingDate = df.parse("2015-01-01");
 
-        Film g = new Film("test-content","1956","1h", "test@example.org", greetingDate);
+        Film g = new Film("test1", "1956","R","1H","hjkhj","hello.jng","test1@gmail.com",greetingDate);
         greetingRepository.save(g);
         Userfilm u = new Userfilm("test-user", "test@example.org");
         u.addFilm(g);
@@ -94,9 +94,12 @@ public class UserfilmControllerTest {
                         hasProperty("email", is("test@example.org")),
                         hasProperty("films", contains( allOf(
                                 hasProperty("id", is(1L)),
-                                hasProperty("title", is("test-content")),
-                                hasProperty("email", is("test@example.org")),
-                                hasProperty("date", comparesEqualTo(greetingDate)))
+                                hasProperty("title", is("test1")),
+                                hasProperty("year", is("1956")),
+                                hasProperty("mpaa_rating",is("R")),
+                                hasProperty("runtime",is("1H")),
+                                hasProperty("synopsis",is("hjkhj")),
+                                hasProperty("poster",is("hello.jng")))
                         )))));
     }
 /*

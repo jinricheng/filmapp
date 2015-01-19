@@ -31,12 +31,23 @@
             <td><form:input path="year"/> <i><form:errors path="year"></form:errors></i></td>
         </tr>
         <tr>
-            <td><form:label path="duration">Runtime</form:label></td>
-            <td><form:input path="duration"/> <i><form:errors path="duration"></form:errors></i></td>
+            <td><form:label path="mpaa_rating">Mppa_Rating</form:label></td>
+            <td><form:input path="mpaa_rating"/> <i><form:errors path="mpaa_rating"></form:errors></i></td>
+        </tr>
+        <tr>
+            <td><form:label path="runtime">Runtime</form:label></td>
+            <td><form:input path="runtime"/> <i><form:errors path="runtime"></form:errors></i></td>
+        </tr>
+        <tr>
+            <td><form:label path="synopsis">Synopsis</form:label></td>
+            <td><form:input path="synopsis"/> <i><form:errors path="synopsis"></form:errors></i></td>
         </tr>
         <tr>
             <td><form:label path="email">Email</form:label></td>
             <td><form:input path="email"/> <i><form:errors path="email"></form:errors></i></td>
+        </tr>
+        <tr>
+            <td><form:hidden path="poster"/> <i><form:errors path="poster"></form:errors></i></td>
         </tr>
         <tr>
             <td><form:hidden path="date"/> <i><form:errors path="date"></form:errors></i></td>

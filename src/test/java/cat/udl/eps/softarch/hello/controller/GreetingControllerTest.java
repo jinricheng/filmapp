@@ -53,7 +53,7 @@ public class GreetingControllerTest {
         this.greetingDate = df.parse("2015-01-01");
 
         if (greetingRepository.count() == 0) {
-            Film g = new Film("test1", "1956","1H", "test1@gmail.com",greetingDate);
+            Film g = new Film("test1", "1956","R","1H","hjkhj","hello.jng","test1@gmail.com",greetingDate);
             greetingRepository.save(g);
             Userfilm u = new Userfilm("testuser", "test@example.org");
             u.addFilm(g);
@@ -81,7 +81,10 @@ public class GreetingControllerTest {
                         hasProperty("id", is(1L)),
                         hasProperty("title", is("test1")),
                         hasProperty("year", is("1956")),
-                        hasProperty("duration",is("1H"))))));
+                        hasProperty("mpaa_rating",is("R")),
+                        hasProperty("runtime",is("1H")),
+                        hasProperty("synopsis",is("hjkhj")),
+                        hasProperty("poster",is("hello.jng"))))));
     }
 
     @Test
@@ -95,7 +98,7 @@ public class GreetingControllerTest {
                         hasProperty("id", is(1L)),
                         hasProperty("title", is("test1")),
                         hasProperty("year", is("1956")),
-                        hasProperty("duration", is("1H")))));
+                        hasProperty("runtime", is("1H")))));
     }
 /*
     @Test

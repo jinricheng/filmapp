@@ -1,11 +1,14 @@
 package cat.udl.eps.softarch.hello.controller;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 
 import cat.udl.eps.softarch.hello.model.Film;
 import cat.udl.eps.softarch.hello.repository.GreetingRepository;
 import cat.udl.eps.softarch.hello.service.UserGreetingsService;
+import cat.udl.eps.softarch.hello.service.XQueryHelper;
 import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +23,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import javax.xml.bind.JAXBException;
+import javax.xml.xquery.XQException;
 
 /**
  * Created by http://rhizomik.net/~roberto/
@@ -93,13 +98,19 @@ public class GreetingController {
 //SEARCH
 @RequestMapping(value = "/result/{result}",method = RequestMethod.GET)
 @ResponseBody
-public Iterable<Film> search(@PathVariable("result" ) String title) {
+public List<Film> search(@PathVariable("result" ) String title)throws ClassNotFoundException, InstantiationException, IllegalAccessException, XQException, IOException, JAXBException {
     //logger.info("film search with content'{}'", film.getTitle());
-    return greetingRepository.findByTitleContaining(title);
+    List<Film> r =  greetingRepository.findByTitleContaining(title);
+    if(r.size()==0){
+           XQueryHelper x = new XQueryHelper();
+            r = x.getListFilm(title);
+            greetingRepository.save(r);
+    }
 
+       return r;
 }
  @RequestMapping(value = "/result/{result}",method = RequestMethod.GET, produces = "text/html")
-    public ModelAndView listSearchResult(@PathVariable("result" )String title) {
+    public ModelAndView listSearchResult(@PathVariable("result" )String title) throws ClassNotFoundException, InstantiationException, IllegalAccessException, XQException, IOException, JAXBException{
 
         return new ModelAndView("result", "films", search(title));
     }
