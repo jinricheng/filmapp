@@ -14,6 +14,11 @@
         <servlet-name>DispatcherServlet</servlet-name>
     </filter-mapping>
 
+    <!-- Set Favourites Icon MIME-Type -->
+    <mime-mapping>
+        <extension>png</extension>
+        <mime-type>views/favicon</mime-type>
+    </mime-mapping>
     <!-- Filter includes headers for Cross-Origin Resource Sharing (CORS) in the response -->
     <filter>
         <filter-name>simpleCORSFilter</filter-name>
