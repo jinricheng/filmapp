@@ -40,10 +40,12 @@ public class GreetingController {
     @Autowired
     UserGreetingsService userGreetingsService;
 
+    // HOME
     @RequestMapping(value = "/",method = RequestMethod.GET, produces = "text/html")
     public ModelAndView homeHTML() {
         return new ModelAndView("home");
     }
+
     // LIST
     @RequestMapping(value = "/films", method = RequestMethod.GET)
     @ResponseBody
@@ -59,7 +61,7 @@ public class GreetingController {
         return new ModelAndView("films", "films", list(page, size));
     }
 
-// RETRIEVE
+    // RETRIEVE
     @RequestMapping(value = "/films/{id}", method = RequestMethod.GET)
     @ResponseBody
     public Film retrieve(@PathVariable("id") Long id) {
@@ -99,34 +101,34 @@ public class GreetingController {
         return new ModelAndView("form", "film", emptyFilm);
     }
 
-//SEARCH
-@RequestMapping(value = "/result/{result}",method = RequestMethod.GET)
-@ResponseBody
-public List<Film> search(@PathVariable("result" ) String title)throws ClassNotFoundException, InstantiationException, IllegalAccessException, XQException, IOException, JAXBException {
-    //logger.info("film search with content'{}'", film.getTitle());
-    List<Film> r =  greetingRepository.findByTitleContaining(title);
-    if(r.size()==0){
-           XQueryHelper x = new XQueryHelper();
+    //SEARCH
+    @RequestMapping(value = "/result/{result}",method = RequestMethod.GET)
+    @ResponseBody
+    public List<Film> search(@PathVariable("result" ) String title)throws ClassNotFoundException, InstantiationException, IllegalAccessException, XQException, IOException, JAXBException {
+        logger.info("film search with content'{}'", title);
+        List<Film> r =  greetingRepository.findByTitleContaining(title);
+        if(r.size()==0){
+            XQueryHelper x = new XQueryHelper();
             r = x.getListFilm(title);
-        for(Film film:r){
-            film.setDate(new Date());
-            Film newFilm = userGreetingsService.addFilmToUser(film);
-            //greetingRepository.save();
-        }
+            for(Film film:r){
+                film.setDate(new Date());
+                Film newFilm = userGreetingsService.addFilmToUser(film);
+                //greetingRepository.save();
+            }
 
+        }
+        return r;
     }
 
-
-       return r;
-}
- @RequestMapping(value = "/result/{result}",method = RequestMethod.GET, produces = "text/html")
+    @RequestMapping(value = "/result/{result}",method = RequestMethod.GET, produces = "text/html")
     public ModelAndView listSearchResult(@PathVariable("result" )String title) throws ClassNotFoundException, InstantiationException, IllegalAccessException, XQException, IOException, JAXBException{
-
+        logger.info("Generating result from search.");
         return new ModelAndView("result", "films", search(title));
     }
 
     @RequestMapping(value = "/result",method = RequestMethod.GET,produces="text/html")
     public String searchHTML(@RequestParam("result")String title) {
+        logger.info("Redirecting from Search Form.");
         return "redirect:/result/"+title;
     }
     // Search form
@@ -139,7 +141,7 @@ public List<Film> search(@PathVariable("result" ) String title)throws ClassNotFo
 
 
 
-// UPDATE
+    // UPDATE
     @RequestMapping(value = "/films/{id}", method = RequestMethod.PUT)
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -166,7 +168,7 @@ public List<Film> search(@PathVariable("result" ) String title)throws ClassNotFo
         return new ModelAndView("form", "film", greetingRepository.findOne(id));
     }
 
-// DELETE
+    // DELETE
     @RequestMapping(value = "/films/{id}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable("id") Long id) {

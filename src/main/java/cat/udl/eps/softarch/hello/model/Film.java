@@ -32,13 +32,13 @@ public class Film implements Serializable{
     @Size(max = 56, message = "Year maximum length is {max} characters long")
     private String year;
 
-   // @NotBlank(message = "mpaa_rating field cannot be blank")
-    @Size(max = 56, message = "mppa_rating maximum length is {max} characters long")
-     private String mpaa_rating;
+    @NotBlank(message = "MPAA Rating field cannot be blank")
+    @Size(max = 56, message = "mpaa_rating maximum length is {max} characters long")
+    private String mpaa_rating;
 
-    //@NotBlank(message = "duration cannot be blank")
+    @NotBlank(message = "Runtime cannot be blank")
     @Size(max = 56, message = "Runtime maximum length is {max} characters long")
-     private String runtime;
+    private String runtime;
 
     @NotBlank(message = "Synopsis cannot be blank")
     private String synopsis;
