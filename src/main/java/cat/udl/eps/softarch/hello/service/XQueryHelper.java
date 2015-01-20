@@ -1,4 +1,4 @@
-package cat.udl.eps.softarch.hello.service;//package cat.udl.eps.softarch;
+package cat.udl.eps.softarch.hello.service;
 
 import cat.udl.eps.softarch.hello.model.Film;
 
@@ -56,29 +56,21 @@ public class XQueryHelper {
         XQDataSource xqds = (XQDataSource) Class.forName("net.sf.saxon.xqj.SaxonXQDataSource").newInstance();
         this.conn = xqds.getConnection();
         this.expr = conn.prepareExpression(xquery);
-        System.out.println("hdjshdsjd");
-        // this.expr.bindDocument(new javax.xml.namespace.QName("doc"), urlconn.getInputStream(), null, null);
-
         this.jaxbContext = JAXBContext.newInstance(Film.class);
         this.jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 
         List<Film> result = this.getFilms();
 
-    return result;
+        return result;
     }
-
 
     private ArrayList<Film> getFilms() {
         ArrayList<Film> films = new ArrayList<Film>();
         try {
             XQResultSequence rs = this.expr.executeQuery();
-
             while (rs.next()) {
-               // System.out.println(rs.getItemAsString(null));
                 XQItem item = rs.getItem();
-
                 Film film = (Film) jaxbUnmarshaller.unmarshal(item.getNode());
-
                 films.add(film);
             }
         } catch (Exception e) {
