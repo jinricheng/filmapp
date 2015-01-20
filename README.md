@@ -22,4 +22,4 @@ Then run embedded Tomcat server:
 mvn exec:exec
 ```
 
-The application will be available at http://localhost:8080/greetings (locally) & https://filmsapp.herokuapp.com/ (Internet)
+The application will be available at http://localhost:8080/ (locally) & https://filmsapp.herokuapp.com/ (Internet)
