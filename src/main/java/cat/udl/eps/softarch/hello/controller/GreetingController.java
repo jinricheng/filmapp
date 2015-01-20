@@ -112,6 +112,7 @@ public class GreetingController {
             r = x.getListFilm(title);
             for(Film film:r){
                 film.setDate(new Date());
+                userGreetingsService.addFilmToUser(film);
             }
         }
         return r;
