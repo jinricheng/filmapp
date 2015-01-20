@@ -10,6 +10,9 @@
   To change this template use File | Settings | File Templates.
 --%>
 <html>
+<head>
+    <link rel="icon" type="image/png" href="favicon.png" />
+</head>
 <body>
 <h1>HOME PAGE:Welcome to the FilmsApp!</h1>
 <h2>Options:</h2>
