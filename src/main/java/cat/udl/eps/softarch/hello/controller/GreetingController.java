@@ -50,14 +50,14 @@ public class GreetingController {
     @RequestMapping(value = "/films", method = RequestMethod.GET)
     @ResponseBody
     public Iterable<Film> list(@RequestParam(required = false, defaultValue = "0") int page,
-                               @RequestParam(required = false, defaultValue = "10") int size) {
+                               @RequestParam(required = false, defaultValue = "100") int size) {
         PageRequest request = new PageRequest(page, size);
         return greetingRepository.findAll(request).getContent();
     }
 
     @RequestMapping(value = "/films",method = RequestMethod.GET, produces = "text/html")
     public ModelAndView listHTML(@RequestParam(required = false, defaultValue = "0") int page,
-                                 @RequestParam(required = false, defaultValue = "10") int size) {
+                                 @RequestParam(required = false, defaultValue = "100") int size) {
         return new ModelAndView("films", "films", list(page, size));
     }
 
