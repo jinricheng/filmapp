@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -100,7 +101,7 @@ public class GreetingControllerTest {
                         hasProperty("year", is("1956")),
                         hasProperty("runtime", is("1H")))));
     }
-/*
+
     @Test
     public void testRetrieveNonExisting() throws Exception {
         mockMvc.perform(get("/films/{id}", 999L).accept(MediaType.TEXT_HTML))
@@ -117,16 +118,19 @@ public class GreetingControllerTest {
                 .accept(MediaType.TEXT_HTML)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("title", "newtest")
-                .param("year", "1325")
-                .param("duration", "1h")
-                .param("email", "newtest@example.org")
+                .param("year", "1956")
+                .param("mpaa_rating","R")
+                .param("runtime", "1h")
+                .param("synopsis", "hdsjdhskjdhs")
+                .param("poster","hello.png")
+                .param("email", "test@example.org")
                 .param("date", df.format(new Date())))
-                .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/films/" + (startSize + 1)))
                 .andExpect(model().hasNoErrors())
-                .andExpect(model().attribute("film", hasProperty("title", is("newtest"))));
+                .andExpect(model().attribute("film", hasProperty("title", is("newtest"))))
+                .andExpect(model().attribute("film", hasProperty("year", is("1956"))));
 
-        assertEquals(startSize+1, greetingRepository.count());
+        assertEquals(startSize + 1, greetingRepository.count());
     }
 
     @Test
@@ -158,16 +162,19 @@ public class GreetingControllerTest {
 
     @Test
     public void testUpdate() throws Exception {
-        Film tobeupdated = greetingRepository.save(new Film("tobeupdated","1956","1h", "test@example.org", new Date()));
+        Film tobeupdated = greetingRepository.save(new Film("tobeupdated","1956","1h", "poster","mappa_rating","synopsis","test@example.org", new Date()));
         int startSize = Ints.checkedCast(greetingRepository.count());
 
         mockMvc.perform(put("/films/{id}", tobeupdated.getId())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("title", "updated")
-                        .param("year", "1956")
-                        .param("duration", "1h")
-                        .param("email", "test@example.org")
-                        .param("date", df.format(new Date())))
+                .param("title", "updated")
+                .param("year", "1956")
+                .param("mpaa_rating","R")
+                .param("runtime", "1h")
+                .param("synopsis", "hdsjdhskjdhs")
+                .param("poster","hello.png")
+                .param("email", "test@example.org")
+                .param("date", df.format(new Date())))
                 .andExpect(status().isFound())
                 .andExpect(view().name("redirect:/films/"+tobeupdated.getId()))
                 .andExpect(model().hasNoErrors());
@@ -178,7 +185,7 @@ public class GreetingControllerTest {
 
     @Test
     public void testUpdateEmpty() throws Exception {
-        Film tobeupdated = greetingRepository.save(new Film("tobeupdated", "1956","1h","test@example.org", new Date()));
+        Film tobeupdated = greetingRepository.save(new Film("tobeupdated","1956","1h", "poster","mappa_rating","synopsis","test@example.org", new Date()));
         int startSize = Ints.checkedCast(greetingRepository.count());
 
         mockMvc.perform(put("/films/{id}", tobeupdated.getId())
@@ -201,11 +208,14 @@ public class GreetingControllerTest {
         mockMvc.perform(put("/films/{id}", 999L)
                         .accept(MediaType.TEXT_HTML)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("title", "updated")
-                        .param("year", "1956")
-                        .param("duration", "1h")
-                        .param("email", "test@example.org")
-                        .param("date", df.format(new Date())))
+                .param("title", "updated")
+                .param("year", "1956")
+                .param("mpaa_rating","R")
+                .param("runtime", "1h")
+                .param("synopsis", "hdsjdhskjdhs")
+                .param("poster","hello.png")
+                .param("email", "test@example.org")
+                .param("date", df.format(new Date())))
                 .andExpect(status().isNotFound())
                 .andExpect(view().name("error"))
                 .andExpect(forwardedUrl("/WEB-INF/views/error.jsp"));
@@ -229,7 +239,7 @@ public class GreetingControllerTest {
                 .andExpect(view().name("error"))
                 .andExpect(forwardedUrl("/WEB-INF/views/error.jsp"));
     }
-
+/*
     @Test
     public void testDeleteExisting() throws Exception {
         Film toBeRemoved = greetingRepository.save(new Film("toberemoved", "1285","1h","test@example.org", new Date()));
