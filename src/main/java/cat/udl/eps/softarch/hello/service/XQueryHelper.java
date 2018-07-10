@@ -12,8 +12,6 @@ import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.xquery.*;
 
 /**
@@ -33,7 +31,7 @@ public class XQueryHelper {
     private String xquery;
 
     private void setQuery(String title) {
-        xquery = "declare variable $doc := doc(\"http://www.omdbapi.com/?t=" + title + "&amp;y=&amp;plot=short&amp;r=xml\");" +
+        xquery = "declare variable $doc := doc(\"http://www.omdbapi.com/?apikey=90f720d8&s=" + title + "&r=xml\");" +
                 "for $c in $doc/root/movie\n" +
                 "return \n"
                 + "<film>\n"
@@ -47,6 +45,21 @@ public class XQueryHelper {
                 + "</film>";
     }
 
+    /*private void setQuery(String title) {
+        xquery = "declare variable $doc := doc(\"http://www.omdbapi.com/?apikey=90f720d8&t=" + title + "&amp;y=&amp;plot=short&amp;r=xml\");" +
+                "for $c in $doc/root/movie\n" +
+                "return \n"
+                + "<film>\n"
+                + "  <title>{data($c/@title)}</title>\n"
+                + "  <year>{data($c/@year)}</year>\n"
+                + "  <mpaa_rating>{data($c/@rated)}</mpaa_rating>\n"
+                + "  <runtime>{data($c/@runtime)}</runtime>\n"
+                + "  <synopsis>{data($c/@plot)}</synopsis>\n"
+                + "  <poster>{data($c/@poster)}</poster>\n"
+                + "  <email>omdb@filmapp.com</email>\n"
+                + "</film>";
+    }*/
+
     public List<Film> getListFilm(String title) throws ClassNotFoundException, InstantiationException, IllegalAccessException, XQException, IOException, JAXBException {
         title = title.replaceAll(" ", "+");
         this.setQuery(title);
@@ -58,7 +71,7 @@ public class XQueryHelper {
         this.expr = conn.prepareExpression(xquery);
         this.jaxbContext = JAXBContext.newInstance(Film.class);
         this.jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-
+       // System.out.println(xquery);
         List<Film> result = this.getFilms();
 
         return result;
